@@ -74,7 +74,6 @@ int solveMaze(int rows, int columns, char maze[rows][columns], char sol[rows][co
         sol[x][y] = '0';
         return 0;
     }
-    sol[x][y] == '0';
     return 0;
 }
 
