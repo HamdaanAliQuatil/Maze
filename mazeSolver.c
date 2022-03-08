@@ -1,4 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
+
+//Funtion to write all correct moves made,to a file
+void writeToFile(int a, int b)
+{
+      FILE *fptr;
+      fptr = fopen("program.txt","a");
+      if(fptr == NULL){ 
+           printf("Error!");
+           exit(1);
+        }
+      fprintf(fptr,"User moved to the location: %d %d \n",a,b);
+      fclose(fptr);    
+}
+
+//Function to read all the moves made
+void readFromFile()
+{
+      int ch;
+      FILE *fp = fopen("program.txt", "r");
+      if (fp == NULL) {
+            printf("ERROR!");
+            exit(0);
+      }
+      while ((ch = getc(fp)) != EOF) //Reading File Until end of Character
+            putchar(ch);
+      fclose(fp);
+         
+}
 
 // Utility function to check validity of coordinate
 int isValid(int rows, int columns, char maze[rows][columns], int x, int y)
@@ -21,8 +50,10 @@ void displayMaze(int rows, int columns, char maze[rows][columns], char sol[rows]
         printf("| ");
         for (int column = 0; column < columns; ++column)
         {
-            if (sol[row][column] == maze[row][column] && maze[row][column] == ' ')
+            if (sol[row][column] == maze[row][column] && maze[row][column] == ' '){
                 printf("X ");
+                writeToFile(row, column);
+            }
             else
                 printf("%c ", maze[row][column]);
         }
@@ -55,8 +86,8 @@ int solveMaze(int rows, int columns, char maze[rows][columns], char sol[rows][co
         sol[x][y] = ' ';
 
         // Move forward in x direction
-        if (solveMaze(rows, columns, maze, sol, x+1, y, end))
-            return 1;
+        if (solveMaze(rows, columns, maze, sol, x+1, y, end))   // .  ..  ...  
+            return 1; 
         
         // If no solution then move down in y direction
         if (solveMaze(rows, columns, maze, sol, x, y+1, end))
@@ -133,5 +164,14 @@ int main()
     }
     printf("One of the possible paths:\n");
     displayMaze(rows, columns, maze, sol);
+    
+    printf("Do you want to see all the moves made? (y/n): ");
+      char movesmade;
+      scanf(" %c", &movesmade);
+      if(movesmade=='y' || movesmade=='Y'){
+            readFromFile();
+      }
+      else 
+            printf("End of game. Thank You.");
     return 1;
 }
