@@ -85,19 +85,19 @@ int solveMaze(int rows, int columns, char maze[rows][columns], char sol[rows][co
         // Marking (x,y) as a part of solution path
         sol[x][y] = ' ';
 
-        // Move forward in x direction
+        // Move down in row
         if (solveMaze(rows, columns, maze, sol, x+1, y, end))   // .  ..  ...  
             return 1; 
         
-        // If no solution then move down in y direction
+        // If no solution, move right in column
         if (solveMaze(rows, columns, maze, sol, x, y+1, end))
             return 1;
 
-        // If no solution then move back in x direction
+        // If no solution, move up in column
         if (solveMaze(rows, columns, maze, sol, x-1, y, end))
             return 1;
 
-        // If no solution then move up in y direction
+        // If no solution, move left in column
         if (solveMaze(rows, columns, maze, sol, x, y-1, end))
             return 1;
 
